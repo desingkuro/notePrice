@@ -5,13 +5,15 @@ import { ingresoClass } from "../class/IngresoClass";
 import { gastosClass } from "../class/GastosClass";
 
 
-export function ModalGeneral({screen}){
+export function ModalGeneral(){
     const { modalIngreso,setModalIngreso,
-            nombre,setNombre,valor,setValor,
-            ingresos,setIngresos,guardarIngresos,
-            setActivoGastos,setGastos,gastos,guardarGastos,setActivoIngresos
-        } = useContext(contexto)
-
+        nombre,setNombre,valor,setValor,
+        ingresos,setIngresos,guardarIngresos,
+        setActivoGastos,setGastos,gastos,guardarGastos,setActivoIngresos,
+        añadir,setAñadir
+    } = useContext(contexto)
+    
+    console.log(añadir);
     function cerrarModal(){
         setModalIngreso(false)
     }
@@ -27,8 +29,7 @@ export function ModalGeneral({screen}){
         if(verificarInputs()){
             añadirInformacion()
         }else{
-            console.log(screen)
-            switch (screen) {
+            switch (añadir) {
                 case 'Ingreso':
                     Alert.alert('Debe llenar ambos campos para guardar el Ingreso')
                     break;
@@ -49,8 +50,8 @@ export function ModalGeneral({screen}){
         setValor('');
     }
     function añadirInformacion(){
-        switch (screen) {
-            case 'Ingreso':
+        switch (añadir) {
+            case 'Ingresos':
                 const ingresoNuevo = new ingresoClass(nombre,valor)
                 setIngresos([...ingresos, ingresoNuevo]);
                 console.log('ingresos guardados'+JSON.stringify(ingresos));
@@ -59,10 +60,9 @@ export function ModalGeneral({screen}){
                 cerrarModal();
                 setActivoIngresos(true)
                 break;
-            case 'Gasto':
+            case 'Gastos':
                 const gastosNuevos = new gastosClass(nombre,valor);
                 setGastos([...gastos,gastosNuevos]);
-                console.log('gastos guardados'+JSON.stringify(gastos));
                 resetInformacion();
                 guardarGastos();
                 cerrarModal();
@@ -80,7 +80,7 @@ export function ModalGeneral({screen}){
     return(
         <Modal visible={modalIngreso}>
                 <View style={estilos.containerModal}>
-                    <Text style={estilos.tituloModal}>Nuevo {screen}</Text>
+                    <Text style={estilos.tituloModal}>Nuevo {añadir}</Text>
                     <Text style={estilos.tituloInput}>Titulo o descripción:</Text>
                     <TextInput
                         value={nombre}

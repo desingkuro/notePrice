@@ -6,7 +6,7 @@ import { contexto } from "../Context/ContextoContainer";
 
 export function Añadir(props){
 
-    const {setModalIngreso} = useContext(contexto);
+    const {setModalIngreso,añadir,setAñadir} = useContext(contexto);
     
     function modalGastos(){
         return(
@@ -23,9 +23,11 @@ export function Añadir(props){
     }
     function modal(){
         if(props.screen==='Ingresos'){
+            setAñadir('Ingresos')
             modalIngresos()
         }else if(props.screen==='Gastos'){
             modalGastos()
+            setAñadir('Gastos')
         }else{
             modalPresupuestos()
         }

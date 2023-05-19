@@ -15,23 +15,23 @@ export function ContextoContainer({children}){
     const [nombre,setNombre]=useState('')
     const [valor,setValor]=useState('')
 
+    const [añadir,setAñadir] = useState('');
+
     useEffect(()=>{
         verificarIngresos()
         verificarGastos()
-    },[ingresos,gastos])
+    },[])
 
     async function verificarIngresos(){
         try{
             const obtenidos = await AsyncStorage.getItem('Ingresos')
             if(obtenidos !== null){
-                console.log('ingresos: '+ingresos)
                 setActivoIngresos(true);
                 const ingresosAntiguos = JSON.parse(obtenidos);
                 setIngresos(ingresosAntiguos)
                 console.log(ingresos)
             }else{
                 setIngresos([])
-                console.log('es nulo o 0')
             }
         }catch(error){
             console.log(error)
@@ -41,14 +41,11 @@ export function ContextoContainer({children}){
         try{
             const obtenidos = await AsyncStorage.getItem('Gastos')
             if(obtenidos !== null){
-                console.log('Gastos: '+ gastos)
                 setActivoGastos(true);
                 const gastosAntiguos = JSON.parse(obtenidos);
                 setGastos(gastosAntiguos)
-                console.log(gastos)
             }else{
                 setGastos([])
-                console.log('es nulo o 0')
             }
         }catch(error){
             console.log(error)
@@ -80,7 +77,7 @@ export function ContextoContainer({children}){
             setActivoGastos,setActivoIngresos,setActivoPresupuesto,
             modalIngreso,setModalIngreso,
             nombre,setNombre,valor,setValor,
-            guardarIngresos,guardarGastos}}>
+            guardarIngresos,guardarGastos,añadir,setAñadir}}>
             {children}
         </contexto.Provider>
     )

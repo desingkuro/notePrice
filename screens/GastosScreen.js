@@ -20,7 +20,6 @@ export function GastosScreen(){
                 <ScrollView style={estilos.scrollContainer}>
                     {
                         gastos.map((gasto,index)=>{
-                            console.log(gasto,index)
                             const {nombre,valor}=gasto;
                             return(
                                 <Card key={index} nombre={nombre} valor={valor}/>

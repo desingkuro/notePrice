@@ -16,12 +16,10 @@ export function IngresoScreen(){
 
     function renderizarcomponentes(){
         if(activoIngresos || ingresos.length > 0){
-            console.log('entro al if')
             return (
                 <ScrollView style={estilos.scrollContainer}>
                     {
                         ingresos.map((ingreso,index)=>{
-                            console.log(ingreso,index)
                             const {nombre,valor}=ingreso;
                             return(
                                 <Card key={index} nombre={nombre} valor={valor}/>
@@ -41,7 +39,7 @@ export function IngresoScreen(){
         <View style={estilos.container}>
             {renderizarcomponentes()}
             <Añadir screen={'Ingresos'}/>
-            <ModalGeneral screen={'Ingreso'}/>
+            <ModalGeneral/>
         </View>
     )
 }
