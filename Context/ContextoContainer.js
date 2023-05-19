@@ -18,7 +18,7 @@ export function ContextoContainer({children}){
     useEffect(()=>{
         verificarIngresos()
         verificarGastos()
-    },[])
+    },[ingresos,gastos])
 
     async function verificarIngresos(){
         try{
