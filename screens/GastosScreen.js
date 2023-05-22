@@ -13,16 +13,16 @@ export function GastosScreen(){
     useEffect(()=>{
         renderizarcomponentes()
     },[gastos])
-
+    
     function renderizarcomponentes(){
         if(activoGastos || gastos.length > 0){
             return (
                 <ScrollView style={estilos.scrollContainer}>
                     {
-                        gastos.map((gasto,index)=>{
+                        gastos.map((gasto,indice)=>{
                             const {nombre,valor}=gasto;
                             return(
-                                <Card key={index} nombre={nombre} valor={valor}/>
+                                <Card key={indice} indice={indice} nombre={nombre} valor={valor}/>
                             )
                         })
                     }

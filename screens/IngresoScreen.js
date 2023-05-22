@@ -22,7 +22,7 @@ export function IngresoScreen(){
                         ingresos.map((ingreso,index)=>{
                             const {nombre,valor}=ingreso;
                             return(
-                                <Card key={index} nombre={nombre} valor={valor}/>
+                                <Card key={index} nombre={nombre} indice={index} valor={valor}/>
                             )
                         })
                     }
