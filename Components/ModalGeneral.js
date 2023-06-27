@@ -1,103 +1,71 @@
 import { View , Text ,StyleSheet, Modal, TextInput,TouchableOpacity, Alert} from "react-native";
 import { contexto } from "../Context/ContextoContainer";
-import { useContext } from "react";
-import { ingresoClass } from "../class/IngresoClass";
-import { gastosClass } from "../class/GastosClass";
+import { useContext, useState } from "react";
 
 
 export function ModalGeneral(){
-    const { modalIngreso,setModalIngreso,
-        nombre,setNombre,valor,setValor,
-        ingresos,setIngresos,guardarIngresos,
-        setActivoGastos,setGastos,gastos,guardarGastos,setActivoIngresos,
-        añadir,setAñadir
-    } = useContext(contexto)
+        
+    const {addPresupuesto,toggleModalPresupuesto,addNewPresupuesto} = useContext(contexto)
     
-    console.log(añadir);
-    function cerrarModal(){
-        setModalIngreso(false)
-    }
-    function verificarInputs() {
-        if (nombre.trim().length > 0 && valor.trim().length > 0) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-      
-    function guardarInformacion(){
+    const[texto,setTexto]=useState('');
+    const[monto,setMonto]=useState('');
+
+    function obtenerValores(){
         if(verificarInputs()){
-            añadirInformacion()
+            const fechaActual = obtenerFechaActual();
+            addNewPresupuesto(texto,monto,fechaActual)
+            resetInputs()
+            toggleModalPresupuesto()
         }else{
-            switch (añadir) {
-                case 'Ingreso':
-                    Alert.alert('Debe llenar ambos campos para guardar el Ingreso')
-                    break;
-                case 'Gasto':
-                    Alert.alert('Debe llenar ambos campos para guardar el Gasto')
-                    break;
-                case 'Presupuesto':
-                    Alert.alert('Debe llenar ambos campos para guardar el Presupuesto')
-                    break;
-                default:
-                    Alert.alert('Información erronea, ha sucedido un error')
-                    break;
-            }
-        }
-    }
-    function resetInformacion(){
-        setNombre('');
-        setValor('');
-    }
-    function añadirInformacion(){
-        switch (añadir) {
-            case 'Ingresos':
-                const ingresoNuevo = new ingresoClass(nombre,valor)
-                setIngresos([...ingresos, ingresoNuevo]);
-                console.log('ingresos guardados'+JSON.stringify(ingresos));
-                resetInformacion();
-                guardarIngresos();
-                cerrarModal();
-                setActivoIngresos(true)
-                break;
-            case 'Gastos':
-                const gastosNuevos = new gastosClass(nombre,valor);
-                setGastos([...gastos,gastosNuevos]);
-                resetInformacion();
-                guardarGastos();
-                cerrarModal();
-                setActivoGastos(true)
-                break;
-            case 'Presupuesto':
-                Alert.alert('Debe llenar ambos campos para guardar el Presupuesto')
-                break;
-            default:
-                Alert.alert('Información erronea, ha sucedido un error')
-                break;
+            Alert.alert('Debe llenar todos los campos')
         }
     }
 
+    function resetInputs(){
+        setMonto('')
+        setTexto('')
+    }
+
+    function obtenerFechaActual() {
+        const fechaActual = new Date();
+        const dia = fechaActual.getDate();
+        const mes = fechaActual.getMonth() + 1; // Los meses en JavaScript se indexan desde 0
+        const anio = fechaActual.getFullYear();
+      
+        const fechaCompleta = dia +'/'+mes+'/'+anio
+        return fechaCompleta
+    }
+
+    function verificarInputs(){
+        if(texto != '' && monto != ''){
+            return true
+        }
+        return false
+    }
+
     return(
-        <Modal visible={modalIngreso}>
+        <Modal visible={addPresupuesto} animationType="slide">
                 <View style={estilos.containerModal}>
-                    <Text style={estilos.tituloModal}>Nuevo {añadir}</Text>
-                    <Text style={estilos.tituloInput}>Titulo o descripción:</Text>
+                    <Text style={estilos.tituloModal}>Nuevo Presupuesto</Text>
+                    <Text style={estilos.tituloInput}>Titulo:</Text>
                     <TextInput
-                        value={nombre}
+                        value={texto}
                         style={estilos.inputText}
-                        onChangeText={v=>{console.log(v);setNombre(v)}}
+                        placeholder="Ingresa el titulo"
+                        onChangeText={v=>{setTexto(v)}}
                     />
-                    <Text style={estilos.tituloInput}>ingrese en monto:</Text>
+                    <Text style={estilos.tituloInput}>Monto:</Text>
                     <TextInput
                         style={estilos.inputText}
-                        value={valor}
+                        placeholder="Ingresar el monto"
+                        value={monto}
                         keyboardType="numeric"
-                        onChangeText={v=>{console.log(v);setValor(v)}}
+                        onChangeText={v=>{setMonto(v)}}
                     />
-                    <TouchableOpacity style={estilos.botonGuardar} onPress={guardarInformacion}>
+                    <TouchableOpacity style={estilos.botonGuardar} onPress={obtenerValores}>
                         <Text style={estilos.textBoton}>Guardar</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={estilos.botonCancelar} onPress={cerrarModal}>
+                    <TouchableOpacity style={estilos.botonCancelar} onPress={toggleModalPresupuesto}>
                         <Text style={estilos.textBoton}>Cancelar</Text>
                     </TouchableOpacity>
                 </View>
@@ -107,7 +75,7 @@ export function ModalGeneral(){
 
 const estilos = StyleSheet.create({
     containerModal:{
-        backgroundColor:'white',
+        backgroundColor:'#BDCDD6',
         flex:1,
         padding:30,
     },
@@ -115,15 +83,18 @@ const estilos = StyleSheet.create({
         fontSize:35,
         fontWeight:'900',
         marginBottom:50,
-        marginTop:100
     },tituloInput:{
+        color:'#537188',
         fontSize:20,
+        marginBottom:10,
     },inputText:{
-        height:50,
-        marginBottom:60,
-        padding:4,
+        height:40,
+        marginBottom:40,
         borderBottomWidth:2,
-        fontSize:25
+        fontSize:20,
+        paddingLeft:14,
+        paddingTop:10,
+        paddingBottom:10
     },botonGuardar:{
         height:50,
         width:'100%',

@@ -1,56 +1,28 @@
-import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { TouchableOpacity,StyleSheet, Text } from "react-native";
 
 import { Entypo } from '@expo/vector-icons';
-import { useContext } from "react";
-import { contexto } from "../Context/ContextoContainer";
 
-export function Añadir(props){
 
-    const {setModalIngreso,añadir,setAñadir} = useContext(contexto);
-    
-    function modalGastos(){
-        return(
-            setModalIngreso(true)
-        )
-    }
-    function modalIngresos(){
-        setModalIngreso(true)
-    }
-    function modalPresupuestos(){
-        return(
-            'hola'
-        )
-    }
-    function modal(){
-        if(props.screen==='Ingresos'){
-            setAñadir('Ingresos')
-            modalIngresos()
-        }else if(props.screen==='Gastos'){
-            modalGastos()
-            setAñadir('Gastos')
-        }else{
-            modalPresupuestos()
-        }
-    }
-
+export function Añadir({accion}){
     return(
-        <TouchableOpacity style={estilos.boton} onPress={modal}>
-            <Entypo name="plus" size={44} color="white" />
+        <TouchableOpacity style={style.boton} onPress={accion}>
+            <Entypo name="plus" size={64} color="grey" />
         </TouchableOpacity>
     )
 }
 
-const estilos = StyleSheet.create({
+const style = StyleSheet.create({
     boton:{
+        position:'absolute',
         height:70,
         width:70,
-        backgroundColor:'#301E67',
+        borderRadius:35,
+
         alignItems:'center',
         justifyContent:'center',
-        zIndex:999,
-        position:'absolute',
-        borderRadius:35,
-        top:600,
-        right:20
+
+        bottom:25,
+        backgroundColor:'#ffff',
+        right:10
     }
 })

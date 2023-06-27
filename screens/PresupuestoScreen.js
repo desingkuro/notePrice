@@ -1,16 +1,84 @@
-import { View , Text, StyleSheet} from "react-native";
+import { useContext } from "react";
+import { View, StyleSheet, ScrollView, Text, Image } from "react-native";
+import { contexto } from "../Context/ContextoContainer";
 import { Error404 } from "../Components/Error404";
+import { Añadir } from "../Components/Añadir";
+import { ModalGeneral } from "../Components/ModalGeneral";
+import { Card } from "../Components/Card";
+import { createStackNavigator } from "@react-navigation/stack";
+import { DetalleScreen } from "./DetalleScreen";
 
-export function PresupuestoScreen(){
+export function PresupuestoScreen({ navigation }) {
+  const { Presupuestos, toggleModalPresupuesto } = useContext(contexto);
+
+  function renderPresupuestos() {
+    if (Presupuestos.length === 0) {
+      return <Error404 mensaje={'presupuestos'} />;
+    }
     return (
-        <View style={estilos.container}>
-            <Error404 mensaje={'Presupuestos'}/>
-        </View>
-    )
+      <ScrollView style={style.containerPresupuestos}>
+        {listarPresupuestos()}
+      </ScrollView>
+    );
+  }
+
+  function abrirVentana() {
+    navigation.navigate('Detalles');
+  }
+
+  function listarPresupuestos() {
+    return Presupuestos.map((elemento, index) => {
+      return (
+        <Card key={index} elemento={elemento} indice={index} funcion={abrirVentana} />
+      );
+    });
+  }
+
+  return (
+    <View style={style.containerScreen}>
+      {renderPresupuestos()}
+      <Añadir accion={toggleModalPresupuesto} />
+      <ModalGeneral />
+    </View>
+  );
 }
 
-const estilos = StyleSheet.create({
-    container:{
-        flex:1
-    }
-})
+const style = StyleSheet.create({
+  containerScreen: {
+    flex: 1,
+    backgroundColor: '#E3F4F4',
+    paddingTop: 40,
+  },
+  containerPresupuestos: {
+    paddingLeft: 10,
+    paddingBottom: 10,
+    paddingTop: 10,
+    paddingRight: 10,
+  },
+});
+
+const Stack = createStackNavigator();
+
+export function NavigationComponent() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Presupuesto"
+          component={PresupuestoScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Detalles"
+          component={DetalleScreen}
+          options={({ navigation }) => ({
+            title: "Detalles",
+            headerLeft: () => (
+              <Button onPress={() => navigation.goBack()} title="Volver" />
+            ),
+          })}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}

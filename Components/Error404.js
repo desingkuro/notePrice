@@ -1,27 +1,33 @@
-import { MaterialIcons } from '@expo/vector-icons';
-import { View, Text , StyleSheet} from 'react-native';
+import { View,Text,Image,StyleSheet } from "react-native";
 
 export function Error404({mensaje}){
     return(
-        <View style={estilos.containerMensaje}>
-            <MaterialIcons name="error-outline" size={120} style={estilos.icono}/>
-            <Text style={estilos.textoMensaje}>No se han encontrado {mensaje}</Text>
+        <View style={style.containerNotFound}>
+            <Image source={require('../icons/sin-conexion.png')} style={style.imgNotFound}/>
+            <Text style={style.textNotfound}>
+                No hay {mensaje} guardados
+            </Text>
         </View>
     )
 }
 
-const estilos = StyleSheet.create({
-    containerMensaje:{
+const style = StyleSheet.create({
+    containerNotFound:{
         flex:1,
         alignItems:'center',
         justifyContent:'center',
+        height:500,
+        width:'100%',
     },
-    icono:{
-        color:'#ebe6ea',
+    imgNotFound:{
+        width: '60%',
+        height:200,
+        marginBottom:20,
+        opacity:.4
     },
-    textoMensaje:{
-        fontSize:20,
-        fontWeight:'800',
-        color:'grey'
+    textNotfound:{
+        fontSize:22,
+        fontWeight:'700',
+        color:'#BDCDD6'
     }
 })
