@@ -39,7 +39,7 @@ export function ContextoContainer({children}){
         setPresupuestos(prevPresupuestos => [...prevPresupuestos, newPresupuesto]);
         guardarAsyncPresupuestos();
       }
-      
+    
     
     async function guardarAsyncPresupuestos(){
         const listaso = JSON.stringify(Presupuestos)
@@ -65,6 +65,7 @@ export function ContextoContainer({children}){
     const[elementoSeleccionado,setElementoSeleccionado] = useState({});
     const[toggleModalIngresoGasto,setToggleModalIngresoGasto] = useState(false);
     const[categoriaSelect,setCategoriaSelect] = useState('');
+    const[indiceELiminar,setIndiceEliminar] = useState(0);
 
     const[description,setDescription] = useState('');
     const[Valor,setValor] = useState('');
@@ -80,7 +81,7 @@ export function ContextoContainer({children}){
             elementoSeleccionado,setElementoSeleccionado,btnGastos,setBtnGastos
             ,btnIngresos,setBtnIngresos,toggleModalIngresoGasto,setToggleModalIngresoGasto,
             categoriaSelect,setCategoriaSelect,Valor,setValor,description,setDescription,
-            obtenerFechaActual
+            obtenerFechaActual,guardarAsyncPresupuestos,indiceELiminar,setIndiceEliminar
         }}>
             {children}
         </contexto.Provider>

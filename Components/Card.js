@@ -17,6 +17,13 @@ export function Card({elemento,indice,funcion}){
     function enviarElemento(){
         setElementoSeleccionado(indice)
     }
+
+    function valorMonto(){
+        let valorActual = parseInt(elemento.monto)
+        let valorFormateado ='$ '+new Intl.NumberFormat().format(valorActual)+' COP'
+        return(valorFormateado)
+    }
+
     return(
         <View style={style.card} >
             <TouchableOpacity onPress={abrirVentana}>
@@ -24,7 +31,7 @@ export function Card({elemento,indice,funcion}){
                     {elemento.titulo}
                 </Text >
                 <Text style={style.monto}>
-                    {'$ '+elemento.monto}
+                    {valorMonto()}
                 </Text>
                 <Text style={style.fecha}>
                     {elemento.fecha}

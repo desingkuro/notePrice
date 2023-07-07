@@ -5,8 +5,7 @@ import { Error404 } from "../Components/Error404";
 import { Añadir } from "../Components/Añadir";
 import { ModalGeneral } from "../Components/ModalGeneral";
 import { Card } from "../Components/Card";
-import { createStackNavigator } from "@react-navigation/stack";
-import { DetalleScreen } from "./DetalleScreen";
+
 
 export function PresupuestoScreen({ navigation }) {
   const { Presupuestos, toggleModalPresupuesto } = useContext(contexto);
@@ -57,28 +56,4 @@ const style = StyleSheet.create({
   },
 });
 
-const Stack = createStackNavigator();
 
-export function NavigationComponent() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Presupuesto"
-          component={PresupuestoScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Detalles"
-          component={DetalleScreen}
-          options={({ navigation }) => ({
-            title: "Detalles",
-            headerLeft: () => (
-              <Button onPress={() => navigation.goBack()} title="Volver" />
-            ),
-          })}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}

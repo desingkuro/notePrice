@@ -11,7 +11,7 @@ export function ModalIngresoGasto(){
     const {
         toggleModalIngresoGasto,setToggleModalIngresoGasto,
         categoriaSelect,description,setDescription,Valor,setValor,Presupuestos,
-        elementoSeleccionado,obtenerFechaActual
+        elementoSeleccionado,obtenerFechaActual,guardarAsyncPresupuestos
     }=useContext(contexto);
 
     function cerrarPantalla(){
@@ -50,6 +50,7 @@ export function ModalIngresoGasto(){
         }else{
             Presupuestos[elementoSeleccionado].gastos.push(elemento);
         }
+        guardarAsyncPresupuestos();
     }
 
     return(
